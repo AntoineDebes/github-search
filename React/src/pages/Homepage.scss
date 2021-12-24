@@ -1,0 +1,84 @@
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.flex-col-start {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrapper {
+  min-height: 100vh;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.search {
+  @extend .flex-col-start;
+  gap: 1em;
+
+  &__container {
+    @extend .flex-start;
+    gap: 1em;
+
+    &__github-icon {
+      font-size: 3rem;
+    }
+
+    &__content {
+      @extend .flex-col-start;
+    }
+  }
+
+  &__form {
+    @extend .flex-between;
+    gap: 0.7em;
+
+    &__input {
+      padding: 1em 0.8em;
+      border-radius: 4px;
+      border: 1px solid var(--primary-color);
+      width: 22em;
+    }
+
+    &__container {
+      position: relative;
+
+      &__select {
+        padding: 1em 0.8em;
+        border-radius: 4px;
+        border: 1px solid var(--primary-color);
+        appearance: none;
+        background-color: transparent;
+
+        &:focus-visible {
+          outline: none;
+        }
+      }
+
+      &__dropdown-icon {
+        position: absolute;
+        z-index: 10;
+        top: 50%;
+        right: 25%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
