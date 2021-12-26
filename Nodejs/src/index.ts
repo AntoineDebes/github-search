@@ -28,6 +28,7 @@ const client = createClient();
 
 app.post("/api/search", async (request: Request, response: Response) => {
   const { searchName, searchTarget, pageRange } = request.body;
+  console.log(searchName, searchTarget, pageRange);
   if (!searchName || !searchTarget)
     return response.status(400).json({ message: "Missing informations" });
 

@@ -1,29 +1,43 @@
 import "./Homepage.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppContext } from "../context/AppContext";
 
 interface FindParamModel {
-  find: string;
-  findOption: any;
+  searchName: string;
+  searchTarget: any;
+  pageRange: number;
 }
 
 const Homepage = () => {
+  const { fetchDataFromSearchContext, appContextStore, setAppContextStore } =
+    useAppContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FindParamModel>();
-  const [findOption, setFindOption] = useState(undefined);
+  const [searchTarget, setSearchTarget] = useState("users");
+
+  useEffect(() => {
+    setSearchTarget(searchTarget);
+  }, [searchTarget]);
 
   const handleSelectedChange = (e: any) => {
-    setFindOption(e.target.value);
+    setSearchTarget(e.target.value);
   };
 
-  const onChange: SubmitHandler<FindParamModel> = (data) => {
+  const onChangeSubmitForm: SubmitHandler<FindParamModel> = (data) => {
+    console.log("data", data);
+
     let params: FindParamModel = {
-      find: data.find,
-      findOption,
+      searchName: data.searchName,
+      searchTarget: searchTarget,
+      pageRange: 1,
     };
+    if (fetchDataFromSearchContext !== undefined) {
+      fetchDataFromSearchContext({ bodyData: params });
+    }
   };
   return (
     <div className="wrapper" id="wrapper">
@@ -35,18 +49,20 @@ const Homepage = () => {
             <p>Search users or repositories below</p>
           </div>
         </div>
-        <form onSubmit={handleSubmit(onChange)} className="search__form">
+        <form className="search__form">
           <input
             className="search__form__input"
             type="text"
             placeholder="Start typing to search .."
-            {...register("find", { required: true })}
+            {...register("searchName", {
+              onChange: () => handleSubmit(onChangeSubmitForm),
+            })}
           />
           <div className="search__form__container">
             <select
               className="search__form__container__select"
-              value={findOption}
-              {...register("findOption", {
+              value={searchTarget}
+              {...register("searchTarget", {
                 required: true,
               })}
               onChange={handleSelectedChange}
