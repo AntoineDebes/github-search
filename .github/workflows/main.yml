@@ -35,4 +35,4 @@ jobs:
         - run: cd Nodejs && npm ci
         - run: cd Reactjs && npm ci 
         - run: cd Nodejs && npm run start --if-present
-        - run: cd Reactjs && npm run build --if-present
+        - run: cd Reactjs && npm start --if-present
