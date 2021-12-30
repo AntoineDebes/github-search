@@ -1,6 +1,5 @@
 import express, { json, Request, Response, urlencoded } from "express";
 import swaggerUI from "swagger-ui-express";
-import "dotenv/config";
 import { createClient } from "redis";
 import * as swaggerDocs from "../swagger.json";
 import cors from "cors";
