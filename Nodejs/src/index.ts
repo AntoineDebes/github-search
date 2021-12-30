@@ -10,6 +10,7 @@ import Axios from "axios";
 interface PaginationFunctionModel {
   model: string;
   pageRange: number;
+  searchTarget: string;
 }
 const app = express();
 
@@ -28,34 +29,44 @@ const client = createClient();
 
 app.post("/api/search", async (request: Request, response: Response) => {
   const { searchName, searchTarget, pageRange } = request.body;
-  console.log(searchName, searchTarget, pageRange);
   if (!searchName || !searchTarget)
     return response.status(400).json({ message: "Missing informations" });
 
-  const model: any = await client.SMEMBERS(`${searchTarget}:${searchName}`);
+  const model: any = await client.SMEMBERS(
+    `${searchTarget}${searchName}:${pageRange}`
+  );
+
   if (model.length) {
-    return response
-      .status(200)
-      .json(paginationFunction({ model: model[0], pageRange }));
+    console.log("model", model[0].length);
+
+    return response.status(200).json({ [searchTarget]: JSON.parse(model[0]) });
   } else {
     await Axios.get(
-      `https://api.github.com/search/${searchTarget}?q=${searchName}`
+      `https://api.github.com/search/${searchTarget}?q=${searchName}&page=${pageRange}`
     )
       .then(async (res: any) => {
-        const dataToString = JSON.stringify(Object.entries(res.data.items));
+        const dataToString = JSON.stringify(res.data.items);
+
+        console.log("dataToStringLength", dataToString.length);
 
         if (!!!res.data.items.length)
           return response.status(404).json({ message: "No data" });
 
-        await (client.SADD(`${searchTarget}:${searchName}`, dataToString) &&
-          client.EXPIRE(`${searchTarget}:${searchName}`, 60 * 60 * 2));
+        await (client.SADD(
+          `${searchTarget}${searchName}:${pageRange}`,
+          dataToString
+        ) &&
+          client.EXPIRE(
+            `${searchTarget}${searchName}:${pageRange}`,
+            60 * 60 * 2
+          ));
 
         return response
           .status(200)
-          .json(paginationFunction({ model: dataToString, pageRange }));
+          .json({ [searchTarget]: JSON.parse(dataToString) });
       })
-      .catch((_) => {
-        return response.status(500).json({ message: "Internal server Error" });
+      .catch((err: Error) => {
+        return response.status(500).json({ message: err.message });
       });
   }
 });
@@ -73,13 +84,22 @@ app.delete("/api/clear-cache", async (response: Response) => {
 
 // Services
 
-const paginationFunction = ({ model, pageRange }: PaginationFunctionModel) => {
-  const paginationPage = (pageRange - 1) * 20;
-  const modelParsed = JSON.parse(model);
-  if (modelParsed.length < paginationPage)
-    return { message: "No more results" };
-  const results = modelParsed.splice(paginationPage, 20);
-  return results;
-};
+// const paginationFunction = ({
+//   model,
+//   pageRange,
+//   searchTarget,
+// }: PaginationFunctionModel) => {
+//   const paginationPage = (pageRange - 1) * 20;
+//   const modelParsed = JSON.parse(model);
+//   if (modelParsed.length < paginationPage)
+//     console.log("modelParsed.length", modelParsed.length);
+//   console.log("paginationPage", paginationPage);
+
+//   return { message: "No more results" };
+//   const results = modelParsed.splice(paginationPage, 20);
+//   return {
+//     [searchTarget]: results,
+//   };
+// };
 
 export default app;

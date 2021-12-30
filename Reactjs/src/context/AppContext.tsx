@@ -1,16 +1,28 @@
 import { useState, useContext, createContext } from "react";
 import Api from "../API";
 
+interface AppContextStoreProps {
+  users: any[];
+  repositories: any[];
+}
 interface AppContextProps {
-  appContextStore?: any;
+  appContextStore?: AppContextStoreProps;
   setAppContextStore?: any;
-  fetchDataFromSearchContext: ({ bodyData }: any) => any | undefined;
+  fetchDataFromSearchContext: ({
+    bodyData,
+    searchTarget,
+  }: any) => any | undefined;
+  resetAppContext: () => void;
 }
 
 const IsAppContext = createContext<Partial<AppContextProps>>({
-  appContextStore: undefined,
+  appContextStore: {
+    users: [],
+    repositories: [],
+  },
   setAppContextStore: undefined,
   fetchDataFromSearchContext: () => {},
+  resetAppContext: () => {},
 });
 
 export function useAppContext() {
@@ -18,22 +30,65 @@ export function useAppContext() {
 }
 
 export function AppContextProvider({ children }: any) {
-  const [appContextStore, setAppContextStore] = useState(undefined);
-
-  const fetchDataFromSearchContext = ({ bodyData }: any) => {
-    Api({ method: "post", fetchApiUrl: "search", data: bodyData }).then(
+  const [appContextStore, setAppContextStore] = useState<AppContextStoreProps>({
+    users: [],
+    repositories: [],
+  });
+  console.log("appContextStore111", appContextStore);
+  const fetchDataFromSearchContext = async ({
+    bodyData,
+    searchTarget,
+  }: {
+    bodyData: any;
+    searchTarget: "users" | "repositories";
+  }) => {
+    await Api({ method: "post", fetchApiUrl: "search", data: bodyData }).then(
       (res: any) => {
-        setAppContextStore(res.data.results);
+        // console.log(
+        //   "appContextStore[searchTarget]",
+        //   appContextStore[searchTarget]
+        // );
+
+        setAppContextStore((prevState) => {
+          // console.table({
+          //   prevState,
+          //   searchTarget,
+          // });
+          // console.log("bsen", [
+          //   ...prevState[searchTarget],
+          //   ...res.data[searchTarget],
+          // ]);
+
+          console.log("test", [searchTarget]);
+
+          return {
+            repositories: [],
+            users: [],
+            [searchTarget]: [
+              ...prevState[searchTarget],
+              ...res.data[searchTarget],
+            ],
+          };
+        });
+
+        return;
       }
     );
   };
 
+  const resetAppContext = () => {
+    setAppContextStore({
+      users: [],
+      repositories: [],
+    });
+  };
   return (
     <>
       <IsAppContext.Provider
         value={{
           appContextStore,
           setAppContextStore,
+          resetAppContext,
           fetchDataFromSearchContext,
         }}
       >

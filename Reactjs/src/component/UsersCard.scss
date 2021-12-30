@@ -1,0 +1,33 @@
+.cards__grid__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  width: 100%;
+  height: 10em;
+  box-shadow: inset 0px -138px 127px -80px black;
+
+  &__img {
+    position: absolute;
+    background-color: red;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: scale-down;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}

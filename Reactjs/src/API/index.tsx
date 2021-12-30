@@ -23,11 +23,11 @@ function Api({ method, fetchApiUrl, data, params, tokenProp }: ApiProps) {
       timeout: 30000,
     })
       .then((response) => {
-        // console.log(response);
+        console.log("response", response);
         res(response);
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
         rej(err);
       });
   });

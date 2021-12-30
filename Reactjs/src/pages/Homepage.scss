@@ -1,5 +1,12 @@
 @import "../assets/UsableCssClasses.scss";
 
+.wrapper {
+  min-height: 100vh;
+  height: 100%;
+  display: grid;
+  justify-items: center;
+}
+
 .search {
   @extend .flex-col-start;
   gap: 1em;
@@ -20,6 +27,10 @@
   &__form {
     @extend .flex-between;
     gap: 0.7em;
+
+    &__input__container {
+      @extend .flex-col-start;
+    }
 
     &__input {
       padding: 1em 0.8em;
@@ -56,4 +67,13 @@
       }
     }
   }
+}
+
+.cards__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16.6em, 17.7em));
+  grid-template-rows: auto;
+  place-items: center;
+  gap: 1em;
+  width: 100%;
 }
