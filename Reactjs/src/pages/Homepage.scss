@@ -74,7 +74,7 @@
 
 .cards__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16.6em, 17.7em));
+  grid-template-columns: repeat(auto-fit, minmax(20.27em, 1fr));
   grid-template-rows: auto;
   place-content: center;
   gap: 1em;

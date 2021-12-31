@@ -1,3 +1,4 @@
+import { writeFile } from "fs";
 import { useState, useContext, createContext } from "react";
 import Api from "../API";
 
@@ -44,21 +45,7 @@ export function AppContextProvider({ children }: any) {
   }) => {
     await Api({ method: "post", fetchApiUrl: "search", data: bodyData }).then(
       (res: any) => {
-        // console.log(
-        //   "appContextStore[searchTarget]",
-        //   appContextStore[searchTarget]
-        // );
-
         setAppContextStore((prevState) => {
-          // console.table({
-          //   prevState,
-          //   searchTarget,
-          // });
-          // console.log("bsen", [
-          //   ...prevState[searchTarget],
-          //   ...res.data[searchTarget],
-          // ]);
-
           console.log("test", [searchTarget]);
 
           return {

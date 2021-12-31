@@ -9,7 +9,7 @@
 
   &__img {
     position: absolute;
-    background-color: red;
+    background-color: var(--primary-color);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -20,14 +20,18 @@
   }
 
   &__content {
+    font-size: 0.9rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
     color: white;
-
+    width: 100%;
+    gap: 0.1em;
+    overflow: hidden;
     a {
-      color: white;
+      color: red;
       text-decoration: none;
+      cursor: pointer;
     }
   }
 }

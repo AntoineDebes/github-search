@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppContext } from "../context/AppContext";
 import UsersCard from "../component/UsersCard";
 import { useDebounce } from "../hooks/useDebounce";
+import ReposCard from "../component/ReposCard";
 
 interface FindParamModel {
   searchName: string;
@@ -126,7 +127,7 @@ const Homepage = () => {
             return <UsersCard key={index} {..._card} />;
           })}
           {appContextStore?.repositories?.map((_card: any, index: number) => {
-            return <UsersCard key={index} {..._card} />;
+            return <ReposCard key={index} {..._card} />;
           })}
         </section>
       )}
