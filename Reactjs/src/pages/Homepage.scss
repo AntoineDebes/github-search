@@ -4,7 +4,10 @@
   min-height: 100vh;
   height: 100%;
   display: grid;
-  justify-items: center;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto;
+  justify-items: start;
 }
 
 .search {
@@ -73,7 +76,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16.6em, 17.7em));
   grid-template-rows: auto;
-  place-items: center;
+  place-content: center;
   gap: 1em;
-  width: 100%;
+  width: 98.9vw;
+  padding-top: 2em;
 }

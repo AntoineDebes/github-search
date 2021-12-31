@@ -31,22 +31,18 @@ app.post("/api/search", async (request: Request, response: Response) => {
   if (!searchName || !searchTarget)
     return response.status(400).json({ message: "Missing informations" });
 
-  const model: any = await client.SMEMBERS(
+  const [model]: any = await client.SMEMBERS(
     `${searchTarget}${searchName}:${pageRange}`
   );
 
-  if (model.length) {
-    console.log("model", model[0].length);
-
-    return response.status(200).json({ [searchTarget]: JSON.parse(model[0]) });
+  if (model) {
+    return response.status(200).json({ [searchTarget]: JSON.parse(model) });
   } else {
     await Axios.get(
       `https://api.github.com/search/${searchTarget}?q=${searchName}&page=${pageRange}`
     )
       .then(async (res: any) => {
         const dataToString = JSON.stringify(res.data.items);
-
-        console.log("dataToStringLength", dataToString.length);
 
         if (!!!res.data.items.length)
           return response.status(404).json({ message: "No data" });

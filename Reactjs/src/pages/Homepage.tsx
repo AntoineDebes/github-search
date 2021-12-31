@@ -21,6 +21,9 @@ const Homepage = () => {
   const [searchTerm, setSearchTerm] = useState<any>(false);
   const [pageRange, setPageRange] = useState<number>(1);
   const debouncedSearchTerm = useDebounce(searchTerm, 1500);
+  const contentDataVerification = !!(
+    appContextStore?.users.length || appContextStore?.repositories.length
+  );
 
   const {
     register,
@@ -117,17 +120,21 @@ const Homepage = () => {
           </div>
         </form>
       </section>
-      <section className="cards__grid">
-        {appContextStore?.users?.map((_card: any, index: number) => {
-          return <UsersCard key={index} {..._card} />;
-        })}
-        {appContextStore?.repositories?.map((_card: any, index: number) => {
-          return <UsersCard key={index} {..._card} />;
-        })}
-      </section>
-      <div>
-        <button onClick={loadMoreHandler}>Load more</button>
-      </div>
+      {contentDataVerification && (
+        <section className="cards__grid">
+          {appContextStore?.users?.map((_card: any, index: number) => {
+            return <UsersCard key={index} {..._card} />;
+          })}
+          {appContextStore?.repositories?.map((_card: any, index: number) => {
+            return <UsersCard key={index} {..._card} />;
+          })}
+        </section>
+      )}
+      {contentDataVerification && (
+        <div>
+          <button onClick={loadMoreHandler}>Load more</button>
+        </div>
+      )}
     </div>
   );
 };
