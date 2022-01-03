@@ -11,7 +11,9 @@
 }
 
 .search {
-  @extend .flex-col-start;
+  @extend .flex-col-center;
+  padding-top: 2em;
+  justify-content: start;
   gap: 1em;
 
   &__container {
@@ -28,18 +30,21 @@
   }
 
   &__form {
-    @extend .flex-between;
+    @extend .flex-col-center;
     gap: 0.7em;
 
     &__input__container {
-      @extend .flex-col-start;
+      @extend .flex-col-center;
+      width: 100%;
+      max-width: 26em;
     }
 
     &__input {
       padding: 1em 0.8em;
       border-radius: 4px;
       border: 1px solid var(--primary-color);
-      width: 22em;
+      width: 90%;
+      min-width: 15em;
 
       &:focus-visible {
         outline: none;
@@ -80,4 +85,25 @@
   gap: 1em;
   width: 98.9vw;
   padding-top: 2em;
+}
+.loadmore__container {
+  padding: 0.5em 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+@media (min-width: 370px) {
+  .search {
+    justify-content: flex-start;
+    width: 100%;
+    align-items: flex-start;
+  }
+  .search__form {
+    flex-direction: row;
+    &__input__container {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
 }

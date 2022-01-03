@@ -2,19 +2,19 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "Antoine Debes Final-project",
-    "description": "Nodejs API documentation",
+    "title": "Antoine Debes lumsum",
+    "description": "lumsum API documentation",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:8080",
+  "host": "localhost:8099",
   "basePath": "/v1",
   "tags": [
     {
-      "name": "Users",
-      "description": "API for users in the system"
+      "name": "Search",
+      "description": "API for search in Github"
     }
   ],
   "schemes": ["http", "https"],
@@ -28,16 +28,16 @@
     }
   },
   "paths": {
-    "/userRegister": {
+    "/api/search": {
       "post": {
-        "summary": "Register user",
-        "tags": ["Users"],
-        "description": "Register user in system",
+        "summary": "Search",
+        "tags": ["User, repository"],
+        "description": "Search for user or repository in Github system",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/User"
+                "$ref": "#/definitions/Search"
               }
             }
           }
@@ -45,44 +45,57 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "Register Success",
+            "description": "Search success",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Search"
             }
           },
-          "401": {
-            "description": "Duplicated Username | email | phone"
+          "400": {
+            "description": "Missing information"
           },
-          "403": {
-            "description": "User cannot be Register"
+          "404": {
+            "description": "No data found"
+          }
+        }
+      }
+    },
+    "/api/clear-cache": {
+      "delete": {
+        "summary": "Clear-cache",
+        "tags": ["clearCache"],
+        "description": "Clears the data in the server memory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Search"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Server deleted all the cached data successfully"
+          },
+          "500": {
+            "description": "Error in deleting Cached data"
           }
         }
       }
     }
   },
   "definitions": {
-    "User": {
+    "Search": {
       "properties": {
-        "firstName": {
+        "searchName": {
           "type": "string"
         },
-        "lastName": {
+        "searchTarget": {
           "type": "string"
         },
-        "userName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
+        "pageRange": {
+          "type": "number"
         }
       }
     }

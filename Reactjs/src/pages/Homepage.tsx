@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Homepage.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAppContext } from "../context/AppContext";
+// import { useAppContext } from "../context/AppContext";
 import UsersCard from "../component/UsersCard";
 import { useDebounce } from "../hooks/useDebounce";
 import ReposCard from "../component/ReposCard";
@@ -16,20 +16,25 @@ interface FindParamModel {
 }
 
 const Homepage = () => {
-  const {
-    fetchDataFromSearchContext,
-    appContextStore,
-    setAppContextStore,
-    resetAppContext,
-  } = useAppContext();
+  // const {
+  //   fetchDataFromSearchContext,
+  //   appContextStore,
+  //   setAppContextStore,
+  //   resetAppContext,
+  // } = useAppContext();
 
-  // const fetchData = useSelector(  state => state.fetchData)
+  const fetchedData = useSelector((state: any) => state.search);
+  const dispatch = useDispatch();
+  const { fetchAppData, resetAppData } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
 
   const [searchTerm, setSearchTerm] = useState<any>(false);
   const [pageRange, setPageRange] = useState<number>(1);
   const debouncedSearchTerm = useDebounce(searchTerm, 1500);
   const contentDataVerification = !!(
-    appContextStore?.users.length || appContextStore?.repositories.length
+    fetchedData?.users?.length || fetchedData?.repositories?.length
   );
 
   const {
@@ -39,9 +44,9 @@ const Homepage = () => {
   } = useForm<FindParamModel>();
 
   useEffect(() => {
-    if (!!resetAppContext && Object.keys(errors).length > 0) {
+    if (!!resetAppData && Object.keys(errors).length > 0) {
       console.log("reset");
-      resetAppContext();
+      resetAppData();
     }
   }, [errors.searchName]);
 
@@ -60,17 +65,13 @@ const Homepage = () => {
     searchName,
     searchTarget,
   }) => {
-    console.log(searchName, searchTarget, "here");
-
-    if (!!fetchDataFromSearchContext && searchName.length > 2) {
-      console.log("pageRange", pageRange);
-
+    if (!!fetchAppData && searchName.length > 2) {
       let params: FindParamModel = {
         searchName: searchName,
         searchTarget: searchTarget,
         pageRange: pageRange,
       };
-      fetchDataFromSearchContext({ bodyData: params, searchTarget });
+      fetchAppData({ bodyData: params, searchTarget, searchName });
     }
   };
 
@@ -129,16 +130,16 @@ const Homepage = () => {
       </section>
       {contentDataVerification && (
         <section className="cards__grid">
-          {appContextStore?.users?.map((_card: any, index: number) => {
+          {fetchedData?.users?.map((_card: any, index: number) => {
             return <UsersCard key={index} {..._card} />;
           })}
-          {appContextStore?.repositories?.map((_card: any, index: number) => {
+          {fetchedData?.repositories?.map((_card: any, index: number) => {
             return <ReposCard key={index} {..._card} />;
           })}
         </section>
       )}
       {contentDataVerification && (
-        <div>
+        <div className="loadmore__container">
           <button onClick={loadMoreHandler}>Load more</button>
         </div>
       )}

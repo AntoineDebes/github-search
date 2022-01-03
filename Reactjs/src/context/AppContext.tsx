@@ -44,8 +44,6 @@ export function AppContextProvider({ children }: any) {
     await Api({ method: "post", fetchApiUrl: "search", data: bodyData }).then(
       (res: any) => {
         setAppContextStore((prevState) => {
-          console.log("test", [searchTarget]);
-
           return {
             repositories: [],
             users: [],

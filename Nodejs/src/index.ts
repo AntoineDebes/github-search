@@ -25,7 +25,7 @@ const client = createClient();
 app.post("/api/search", async (request: Request, response: Response) => {
   const { searchName, searchTarget, pageRange } = request.body;
   if (!searchName || !searchTarget)
-    return response.status(400).json({ message: "Missing informations" });
+    return response.status(400).json({ message: "Missing information" });
 
   const [model]: any = await client.SMEMBERS(
     `${searchTarget}${searchName}:${pageRange}`
@@ -41,7 +41,7 @@ app.post("/api/search", async (request: Request, response: Response) => {
         const dataToString = JSON.stringify(res.data.items);
 
         if (!!!res.data.items.length)
-          return response.status(404).json({ message: "No data" });
+          return response.status(404).json({ message: "No data found" });
 
         await (client.SADD(
           `${searchTarget}${searchName}:${pageRange}`,
@@ -67,10 +67,10 @@ app.delete("/api/clear-cache", async (response: Response) => {
   if (flushAllCashedItems)
     return response
       .status(200)
-      .json({ message: "Server deleted all the cached items successfully" });
+      .json({ message: "Server deleted all the cached data successfully" });
   return response
     .status(500)
-    .json({ message: "Error in deleting Cached information" });
+    .json({ message: "Error in deleting Cached data" });
 });
 
 export default app;
