@@ -1,13 +1,4 @@
-interface ReposCardProps {
-  name: string;
-  owner: {
-    avatar_url: string;
-    login: string;
-    organizations_url: string;
-  };
-  stargazers_count: string;
-  followers_url: string;
-}
+import { ReposCardProps } from "../models/ReposCardModel";
 
 const ReposCard = ({
   name,
@@ -31,7 +22,6 @@ const ReposCard = ({
           <p>author</p>
           <p>{login}</p>
         </div>
-
         <div>
           <p>stars</p>
           <p>{stargazers_count}</p>

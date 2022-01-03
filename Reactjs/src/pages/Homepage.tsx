@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import "./Homepage.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -8,12 +9,7 @@ import ReposCard from "../component/ReposCard";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../state";
-
-interface FindParamModel {
-  searchName: string;
-  searchTarget: any;
-  pageRange: number;
-}
+import { FindParamModel } from "../models/HomepageModel";
 
 const Homepage = () => {
   // const {
@@ -44,8 +40,7 @@ const Homepage = () => {
   } = useForm<FindParamModel>();
 
   useEffect(() => {
-    if (!!resetAppData && Object.keys(errors).length > 0) {
-      console.log("reset");
+    if (!!resetAppData && !!Object.keys(errors).length) {
       resetAppData();
     }
   }, [errors.searchName]);
@@ -58,7 +53,6 @@ const Homepage = () => {
     if (debouncedSearchTerm) {
       handleSubmit(onChangeSubmitForm)(debouncedSearchTerm);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchTerm]);
 
   const onChangeSubmitForm: SubmitHandler<FindParamModel> = ({
@@ -113,7 +107,6 @@ const Homepage = () => {
               <span className="text-danger">{errors.searchName.message}</span>
             )}
           </div>
-
           <div className="search__form__container">
             <select
               className="search__form__container__select"
@@ -122,7 +115,7 @@ const Homepage = () => {
               })}
             >
               <option value="users">User</option>
-              <option value="repositories">Repository</option>
+              <option value="repositories">Repo</option>
             </select>
             <i className="search__form__container__dropdown-icon fas fa-caret-down" />
           </div>

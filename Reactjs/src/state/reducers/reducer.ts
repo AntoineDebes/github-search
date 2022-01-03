@@ -1,12 +1,10 @@
-import { stat } from "fs";
+import {
+  ActionModel,
+  SetAppDataModel,
+  AppStoreProps,
+} from "./../../models/ReduxAppModel";
 import { toast } from "react-toastify";
-import { actions } from "./../actions";
-interface AppContextStoreProps {
-  users: any[];
-  repositories: any[];
-  searchName: string;
-  noDataFound: boolean;
-}
+
 const initialState = {
   users: [],
   repositories: [],
@@ -14,16 +12,8 @@ const initialState = {
   noDataFound: false,
 };
 
-interface SetAppDataModel {
-  res: any;
-  searchTarget: "users" | "repositories";
-  searchName: string;
-}
-interface ActionModel extends SetAppDataModel {
-  type: "fetch" | "reset" | "noDataReset";
-}
 const reducer = (
-  state: AppContextStoreProps = initialState,
+  state: AppStoreProps = initialState,
   { type, res, searchTarget, searchName }: ActionModel
 ) => {
   // switch (type) {
@@ -77,9 +67,9 @@ const reducer = (
   } = {
     fetch: () => {
       return setAppData({
-        res: res,
-        searchTarget: searchTarget,
-        searchName: searchName,
+        res,
+        searchTarget,
+        searchName,
       });
     },
     reset: () => {
@@ -89,13 +79,10 @@ const reducer = (
       return resetAppDataWithNoDataError();
     },
   };
-  console.log("state", state);
+
   if (functionList[type] && !!functionList[type]) {
-    console.log("functionList[type]", functionList[type]);
     return functionList[type]();
   } else {
-    console.log("state", state);
-
     return state;
   }
 };

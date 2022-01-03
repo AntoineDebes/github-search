@@ -1,19 +1,9 @@
 import { useState, useContext, createContext } from "react";
 import Api from "../API";
-
-interface AppContextStoreProps {
-  users: any[];
-  repositories: any[];
-}
-interface AppContextProps {
-  appContextStore?: AppContextStoreProps;
-  setAppContextStore?: any;
-  fetchDataFromSearchContext: ({
-    bodyData,
-    searchTarget,
-  }: any) => any | undefined;
-  resetAppContext: () => void;
-}
+import {
+  AppContextProps,
+  AppContextStoreProps,
+} from "../models/ContextAppModel";
 
 const IsAppContext = createContext<Partial<AppContextProps>>({
   appContextStore: {
