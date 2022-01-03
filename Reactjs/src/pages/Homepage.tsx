@@ -5,6 +5,9 @@ import { useAppContext } from "../context/AppContext";
 import UsersCard from "../component/UsersCard";
 import { useDebounce } from "../hooks/useDebounce";
 import ReposCard from "../component/ReposCard";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../state";
 
 interface FindParamModel {
   searchName: string;
@@ -19,6 +22,9 @@ const Homepage = () => {
     setAppContextStore,
     resetAppContext,
   } = useAppContext();
+
+  // const fetchData = useSelector(  state => state.fetchData)
+
   const [searchTerm, setSearchTerm] = useState<any>(false);
   const [pageRange, setPageRange] = useState<number>(1);
   const debouncedSearchTerm = useDebounce(searchTerm, 1500);

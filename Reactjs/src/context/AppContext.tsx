@@ -1,4 +1,3 @@
-import { writeFile } from "fs";
 import { useState, useContext, createContext } from "react";
 import Api from "../API";
 
@@ -35,7 +34,6 @@ export function AppContextProvider({ children }: any) {
     users: [],
     repositories: [],
   });
-  console.log("appContextStore111", appContextStore);
   const fetchDataFromSearchContext = async ({
     bodyData,
     searchTarget,

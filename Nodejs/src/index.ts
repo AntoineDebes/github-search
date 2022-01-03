@@ -6,11 +6,7 @@ import cors from "cors";
 import Axios from "axios";
 
 // Models
-interface PaginationFunctionModel {
-  model: string;
-  pageRange: number;
-  searchTarget: string;
-}
+
 const app = express();
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
@@ -76,25 +72,5 @@ app.delete("/api/clear-cache", async (response: Response) => {
     .status(500)
     .json({ message: "Error in deleting Cached information" });
 });
-
-// Services
-
-// const paginationFunction = ({
-//   model,
-//   pageRange,
-//   searchTarget,
-// }: PaginationFunctionModel) => {
-//   const paginationPage = (pageRange - 1) * 20;
-//   const modelParsed = JSON.parse(model);
-//   if (modelParsed.length < paginationPage)
-//     console.log("modelParsed.length", modelParsed.length);
-//   console.log("paginationPage", paginationPage);
-
-//   return { message: "No more results" };
-//   const results = modelParsed.splice(paginationPage, 20);
-//   return {
-//     [searchTarget]: results,
-//   };
-// };
 
 export default app;
