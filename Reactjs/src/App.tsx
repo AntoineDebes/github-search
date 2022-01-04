@@ -1,9 +1,9 @@
 import "./App.css";
 import "./normalize.css";
-import Homepage from "./pages/Homepage";
 import { AppContextProvider } from "./context/AppContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Routes from "./component/Routes";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         draggable
         pauseOnHover
       />
-      <Homepage />
+      <Routes />
     </AppContextProvider>
   );
 }

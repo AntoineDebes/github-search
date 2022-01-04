@@ -28,7 +28,7 @@ const Homepage = () => {
 
   const [searchTerm, setSearchTerm] = useState<any>(false);
   const [pageRange, setPageRange] = useState<number>(1);
-  const debouncedSearchTerm = useDebounce(searchTerm, 1500);
+  const debouncedSearchTerm = useDebounce(searchTerm, 750);
   const contentDataVerification = !!(
     fetchedData?.users?.length || fetchedData?.repositories?.length
   );
