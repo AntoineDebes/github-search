@@ -12,3 +12,10 @@
 - Made a backup Pagination function
 - Saved the incoming data from Github inside one big Key
 - Configured Jest with Nodejs/Reactjs (TS template)
+
+## Hosted
+
+- On DigitalOcean.
+- Under antoinedebes.codes sub-domain name
+- Certbot certificate for Https
+- Github action is included for testing my app using Jest

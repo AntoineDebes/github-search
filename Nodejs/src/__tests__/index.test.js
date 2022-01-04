@@ -39,7 +39,7 @@ describe("POST /api/search", () => {
     });
   });
 
-  describe("given a bad value to find users", () => {});
+  describe("given a bad value to find users/repos/issues", () => {});
   it("should responde with 200 status code", async () => {
     const response = await request(app).post("/api/search").send({
       searchName: "antoineasdasdasdasdasdasdsada",
@@ -48,7 +48,7 @@ describe("POST /api/search", () => {
     });
     expect(response.statusCode).toBe(404);
   });
-  it("should responde with 200 status code", async () => {
+  it("should responde with 200 status code for repos", async () => {
     const response = await request(app).post("/api/search").send({
       searchName: "antoineasdasdasdasdasdasdsada",
       searchTarget: "repositories",

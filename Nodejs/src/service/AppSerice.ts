@@ -17,9 +17,7 @@ const AppServices = {
   },
 
   githubFetchData: async ({ searchName, searchTarget, pageRange }) => {
-    console.log({ searchName, searchTarget, pageRange });
-
-    return await Axios.get(
+    return Axios.get(
       `https://api.github.com/search/${searchTarget}?q=${searchName}&page=${pageRange}`
     )
       .then(async (res: any) => {
@@ -33,13 +31,13 @@ const AppServices = {
         ) &&
           client.EXPIRE(
             `${searchTarget}${searchName}:${pageRange}`,
-            60 * 60 * 2
+            60 * 60 * 2 // equals 2 hours
           ));
 
         return { [searchTarget]: JSON.parse(dataToString) };
       })
       .catch((err: Error) => {
-        return { message: err.message };
+        throw { message: err.message };
       });
   },
 
