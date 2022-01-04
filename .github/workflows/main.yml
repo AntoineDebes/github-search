@@ -34,5 +34,5 @@ jobs:
             cache: 'npm'
         - run: cd Nodejs && npm ci
         - run: cd Reactjs && npm ci 
-        - run: cd Nodejs && npm run start --if-present
-        - run: cd Reactjs && npm start --if-present
+        - run: pm2 restart 2
+        - run: cd Reactjs && npm run build && cd build && sudo cp * -r /var/www/lumsum
